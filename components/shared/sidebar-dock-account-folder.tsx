@@ -12,12 +12,15 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { DEFAULT_APP_ICON_STYLE } from "@/config/appearance";
 import { GLASS_SHELL_SURFACE } from "@/config/glass";
 import {
+  getSidebarAppIconTone,
   SIDEBAR_DOCK_ACTIVE_DOT_CLASS,
   SIDEBAR_DOCK_LABEL_CLASS,
   SIDEBAR_DOCK_TRIGGER_CLASS,
 } from "@/config/sidebar";
+import { useOptionalAppearance } from "@/contexts/appearance-context";
 import { GearSixIcon, PaintpaletteIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import type { AppUser } from "@/types/user";
@@ -33,8 +36,7 @@ const FOLDER_FACE = [
 ].join(" ");
 
 /** Preview grid sits inset so tiles don't fill the dock shell. */
-const FOLDER_GRID =
-  "grid size-[22px] grid-cols-2 grid-rows-2 gap-[2px]";
+const FOLDER_GRID = "grid size-[22px] grid-cols-2 grid-rows-2 gap-[2px]";
 
 const MINI_TILE =
   "flex size-full items-center justify-center rounded-[2.5px] bg-linear-to-b shadow-[inset_0_0.5px_0_0_rgba(255,255,255,0.35),0_0.5px_1px_rgba(0,0,0,0.18)]";
@@ -62,6 +64,11 @@ export function SidebarDockAccountFolder({
   const [open, setOpen] = useState(false);
   const tooltipVisible = useSidebarDockTooltipVisible();
   const { open: appearanceOpen, openAppearance } = useAppearanceDrawer();
+  const appearance = useOptionalAppearance();
+  const iconStyle = appearance?.appIconStyle ?? DEFAULT_APP_ICON_STYLE;
+  const appearanceTone = getSidebarAppIconTone("appearance", iconStyle);
+  const settingsTone = getSidebarAppIconTone("settings", iconStyle);
+  const profileTone = getSidebarAppIconTone("profile", iconStyle);
   const folderActive =
     open || appearanceOpen || settingsActive || isProfileOpen;
   const initial = currentUser.username.slice(0, 1).toUpperCase();
@@ -91,36 +98,80 @@ export function SidebarDockAccountFolder({
         >
           <span aria-hidden className={FOLDER_FACE}>
             <span className={FOLDER_GRID}>
-              <span
-                className={cn(
-                  MINI_TILE,
-                  "from-[#BF5AF2] via-[#AF52DE] to-[#8944AB]",
-                )}
-              >
-                <PaintpaletteIcon className="size-1.25 text-white drop-shadow-sm" />
+              <span className={cn(MINI_TILE, appearanceTone.shell)}>
+                <PaintpaletteIcon
+                  className={cn(
+                    "size-[5px] drop-shadow-sm",
+                    appearanceTone.glyph,
+                  )}
+                />
+              </span>
+              <span className={cn(MINI_TILE, settingsTone.shell)}>
+                <GearSixIcon
+                  className={cn("size-[5px] drop-shadow-sm", settingsTone.glyph)}
+                />
               </span>
               <span
                 className={cn(
                   MINI_TILE,
-                  "from-[#AEAEB2] via-[#8E8E93] to-[#636366]",
-                )}
-              >
-                <GearSixIcon className="size-1.25 text-white drop-shadow-sm" />
-              </span>
-              <span
-                className={cn(
-                  MINI_TILE,
-                  "overflow-hidden from-[#C77DFF] via-[#AF52DE] to-[#7D3C98] text-[4.5px] font-bold leading-none text-white",
+                  profileTone.shell,
+                  profileTone.glyph,
+                  "overflow-hidden text-[4.5px] font-bold leading-none",
                 )}
               >
                 {initial}
               </span>
               {/* Fourth cell — iOS-style mini stack placeholder */}
-              <span className="grid size-full grid-cols-2 grid-rows-2 gap-px rounded-[2.5px] bg-black/5 p-px dark:bg-white/8">
-                <span className="rounded-[1px] bg-[#AF52DE]/80" />
-                <span className="rounded-[1px] bg-[#8E8E93]/80" />
-                <span className="rounded-[1px] bg-[#7D3C98]/80" />
-                <span className="rounded-[1px] bg-[#AEAEB2]/70" />
+              <span
+                className={cn(
+                  "grid size-full grid-cols-2 grid-rows-2 gap-px rounded-[2.5px] p-px",
+                  iconStyle === "light"
+                    ? "bg-black/6"
+                    : iconStyle === "dark"
+                      ? "bg-white/10"
+                      : "bg-black/5 dark:bg-white/8",
+                )}
+              >
+                <span
+                  className={cn(
+                    "rounded-[1px]",
+                    iconStyle === "colored"
+                      ? "bg-[#AF52DE]/80"
+                      : iconStyle === "light"
+                        ? "bg-[#AF52DE]/55"
+                        : "bg-[#BF5AF2]/70",
+                  )}
+                />
+                <span
+                  className={cn(
+                    "rounded-[1px]",
+                    iconStyle === "colored"
+                      ? "bg-[#8E8E93]/80"
+                      : iconStyle === "light"
+                        ? "bg-[#8E8E93]/45"
+                        : "bg-[#AEAEB2]/70",
+                  )}
+                />
+                <span
+                  className={cn(
+                    "rounded-[1px]",
+                    iconStyle === "colored"
+                      ? "bg-[#7D3C98]/80"
+                      : iconStyle === "light"
+                        ? "bg-[#7D3C98]/50"
+                        : "bg-[#C77DFF]/65",
+                  )}
+                />
+                <span
+                  className={cn(
+                    "rounded-[1px]",
+                    iconStyle === "colored"
+                      ? "bg-[#AEAEB2]/70"
+                      : iconStyle === "light"
+                        ? "bg-[#AEAEB2]/40"
+                        : "bg-[#C7C7CC]/60",
+                  )}
+                />
               </span>
             </span>
           </span>

@@ -5,7 +5,6 @@ import { useEffect, useRef } from "react";
 import { NotificationBell } from "@/components/notifications/notification-bell";
 import { PushSubscriptionButton } from "@/components/notifications/push-subscription-button";
 import { SchedulerPageHelpContent } from "@/components/scheduler/scheduler-page-help-content";
-import { DivisionScopeSwitcher } from "@/components/shared/division-scope-switcher";
 import { HeaderActionsSlot } from "@/components/shared/header-actions";
 import { HeaderBreadcrumbPills } from "@/components/shared/header-breadcrumb-pills";
 import { HeaderFrostVeil } from "@/components/shared/header-frost-veil";
@@ -87,9 +86,6 @@ export function AppHeader({ className }: AppHeaderProps) {
         )}
 
         <div className="order-3 ml-auto flex min-w-0 max-w-full flex-1 items-center justify-end gap-2 md:order-0 md:gap-1">
-          {!isDashboard ? (
-            <DivisionScopeSwitcher className="hidden lg:flex" />
-          ) : null}
           <HeaderActionsSlot className="min-w-0 max-w-full" />
           <HeaderTrailingSlot />
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { DashboardDateFilter } from "@/components/dashboard/dashboard-date-filter";
 import { DashboardFilterSelect } from "@/components/dashboard/dashboard-filter-select";
 import { DashboardKpiStrip } from "@/components/dashboard/dashboard-kpi-strip";
@@ -11,7 +11,6 @@ import {
 import { SolidSurface } from "@/components/shared/solid-surface";
 import { Badge } from "@/components/ui/badge";
 import { APP_PANEL_SURFACE } from "@/config/shared-surfaces";
-import { useDivisionScope } from "@/contexts/division-scope-context";
 import {
   type AnalyticsFilters,
   getAnalyticsHighlights,
@@ -45,18 +44,9 @@ const HIGHLIGHT_ICONS = {
 } as const;
 
 export function AnalyticsView() {
-  const { divisionId } = useDivisionScope();
   const [filters, setFilters] = useState<AnalyticsFilters>(() =>
     getDefaultAnalyticsFilters(),
   );
-
-  useEffect(() => {
-    setFilters((current) =>
-      current.departmentId === divisionId
-        ? current
-        : { ...current, departmentId: divisionId },
-    );
-  }, [divisionId]);
 
   const kpis = useMemo(() => getAnalyticsKpis(filters), [filters]);
   const trend = useMemo(() => getAnalyticsTrend(filters), [filters]);

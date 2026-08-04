@@ -54,7 +54,6 @@ import { APP_FRAME_HEIGHT } from "@/config/viewport";
 import { BrandsProvider } from "@/contexts/brands-context";
 import { BreadcrumbProvider } from "@/contexts/breadcrumb-context";
 import { CurrentUserProvider } from "@/contexts/current-user-context";
-import { DivisionScopeProvider } from "@/contexts/division-scope-context";
 import { usePullToRefresh } from "@/hooks/use-pull-to-refresh";
 import { cn } from "@/lib/utils";
 import type { AppBrand } from "@/types/brand";
@@ -122,16 +121,15 @@ export function DashboardShell({
   return (
     <CurrentUserProvider currentUser={currentUser}>
       <BrandsProvider brands={brands}>
-        <DivisionScopeProvider>
-          <BreadcrumbProvider>
-            <HeaderActionsProvider>
-              <HeaderLeadingProvider>
-                <HeaderTrailingProvider>
-                  <AppearanceDrawerProvider>
-                    <ProfileDialogProvider>
-                      <MobileScrollChromeProvider>
-                        <AppSidebarProvider
-                          className={cn(
+        <BreadcrumbProvider>
+          <HeaderActionsProvider>
+            <HeaderLeadingProvider>
+              <HeaderTrailingProvider>
+                <AppearanceDrawerProvider>
+                  <ProfileDialogProvider>
+                    <MobileScrollChromeProvider>
+                      <AppSidebarProvider
+                        className={cn(
                             "relative z-10 flex min-h-0 w-full overflow-hidden bg-transparent",
                             APP_FRAME_HEIGHT,
                           )}
@@ -220,7 +218,6 @@ export function DashboardShell({
               </HeaderLeadingProvider>
             </HeaderActionsProvider>
           </BreadcrumbProvider>
-        </DivisionScopeProvider>
       </BrandsProvider>
     </CurrentUserProvider>
   );
