@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local design reference only — components are copied into this repo
+/scheduler-app
+/.agents
+/.cursor
