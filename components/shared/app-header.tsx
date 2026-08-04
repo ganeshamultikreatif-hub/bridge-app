@@ -87,7 +87,9 @@ export function AppHeader({ className }: AppHeaderProps) {
         )}
 
         <div className="order-3 ml-auto flex min-w-0 max-w-full flex-1 items-center justify-end gap-2 md:order-0 md:gap-1">
-          <DivisionScopeSwitcher className="hidden lg:flex" />
+          {!isDashboard ? (
+            <DivisionScopeSwitcher className="hidden lg:flex" />
+          ) : null}
           <HeaderActionsSlot className="min-w-0 max-w-full" />
           <HeaderTrailingSlot />
 

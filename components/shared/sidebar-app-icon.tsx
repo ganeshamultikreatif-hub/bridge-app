@@ -50,15 +50,16 @@ export function SidebarAppIcon({
     : SIDEBAR_APP_ICON_SHELL;
   /** Full-bleed suite marks (Scheduler / CMS) — fill the squircle. */
   const imagePx = isDock ? 36 : 22;
-  const maskSize = isDock ? "size-5" : "size-3.5";
+  const maskSize = isDock ? "size-10" : "size-7";
 
   return (
     <span
       className={cn(
         shellClass,
-        imageSrc && !imageMask
-          ? "overflow-hidden bg-black p-0 shadow-none"
-          : shell,
+        // Photo logos keep the app-icon shell surface (transparent PNG shows through).
+        // Mask logos also use the tone shell for glyph recolor.
+        shell,
+        imageSrc && "overflow-hidden",
         className,
       )}
     >
@@ -81,7 +82,7 @@ export function SidebarAppIcon({
         <Image
           alt=""
           aria-hidden="true"
-          className="size-full object-cover"
+          className="size-full object-contain p-[1px]"
           height={imagePx}
           src={imageSrc}
           unoptimized
